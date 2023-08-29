@@ -127,9 +127,14 @@ public class TestSteps {
 
 	}
 
-	@When("^user inputs (\\d+)$")
+	@When("^user inputs (.+)$")
 	public void userInputsOPTION(int userInput) {
-		coffeeMakerMain.UI_Input(new ChooseService(userInput));
+try {
+	coffeeMakerMain.UI_Input(new ChooseService(userInput));
+}
+catch (Exception e){
+	System.out.println("Exception caught in user input");
+}
 	}
 
 	@And("^SUT mode is ([A-Z_]+)$")

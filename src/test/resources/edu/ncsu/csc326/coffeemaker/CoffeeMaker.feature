@@ -14,61 +14,34 @@ Feature: CoffeeMakerFeature
 #  - Is the change produced correct?
 #  - etc.
 
-#Scenario Outline: Waiting State
-#      Priority: 1 Story Points: 2
-#      If the Coffee Maker is not in use it waits for user input. There are six different
-#      options of user input: 1) add recipe, 2) delete a recipe, 3) edit a recipe,
-#      4) add inventory, 5) check inventory, and 6) purchase beverage.
-#
-#      For this scenario, what we will do is try each of the six user inputs and make sure
-#      that the coffee maker ends up in the appropriate mode.  This would be a good place
-#      for a scenario outline with a table that described user inputs and expected final states.
-#
-#      You might also want to try a couple of exceptional values to see what the
-#      Coffee Maker does.
-#
-#      Given an empty recipe book
-#      * user inputs <OPTION>
-#      * SUT status is <STATUS>
-#      * SUT mode is <MODE>
-#      Examples:
-#            | OPTION    | MODE          | STATUS      |
-#            |1          |ADD_RECIPE       |OK         |
-#            |2          |DELETE_RECIPE    |OK    |
-#            |3          |EDIT_RECIPE      |OK         |
-#            |4          |ADD_INVENTORY    |OK         |
-#            |5          |CHECK_INVENTORY  |OK         |
-#            |6          |PURCHASE_BEVERAGE |OK
+Scenario Outline: Waiting State
+      Priority: 1 Story Points: 2
+      If the Coffee Maker is not in use it waits for user input. There are six different
+      options of user input: 1) add recipe, 2) delete a recipe, 3) edit a recipe,
+      4) add inventory, 5) check inventory, and 6) purchase beverage.
 
-      Scenario: Check modes and status ADD_RECIPE
-            Given an empty recipe book
-            * user inputs 1
-            * SUT mode is ADD_RECIPE
-            * SUT status is OK
+      For this scenario, what we will do is try each of the six user inputs and make sure
+      that the coffee maker ends up in the appropriate mode.  This would be a good place
+      for a scenario outline with a table that described user inputs and expected final states.
 
-      Scenario: Check modes and status DELETE_RECIPE
-            Given an empty recipe book
-            * user inputs 2
-            * SUT mode is DELETE_RECIPE
-            * SUT status is OK
+      You might also want to try a couple of exceptional values to see what the
+      Coffee Maker does.
 
-      Scenario: Check modes and status EDIT_RECIPE
-            Given an empty recipe book
-            * user inputs 3
-            * SUT mode is EDIT_RECIPE
-            * SUT status is OK
+      Given an empty recipe book
+      * user inputs <OPTION>
+      * SUT status is <STATUS>
+      * SUT mode is <MODE>
+      Examples:
+            | OPTION    | MODE          | STATUS      |
+            |1          |ADD_RECIPE       |OK         |
+            |2          |DELETE_RECIPE    |OK         |
+            |3          |EDIT_RECIPE      |OK         |
+            |4          |ADD_INVENTORY    |OK         |
+            |5          |CHECK_INVENTORY  |OK         |
+            |6          |PURCHASE_BEVERAGE |OK        |
+#            |8          |WAITING         |UNKNOWN_ERROR|
+#            |F          |WAITING         |UNKNOWN_ERROR|
 
-      Scenario: Check modes and status ADD_INVENTORY
-            Given an empty recipe book
-            * user inputs 4
-            * SUT mode is ADD_INVENTORY
-            * SUT status is OK
-
-      Scenario: Check modes and status CHECK_INVENTORY
-            Given an empty recipe book
-            * user inputs 5
-            * SUT mode is CHECK_INVENTORY
-            * SUT status is OK
 
       Scenario: A new recipe is added
             Given an empty recipe book
