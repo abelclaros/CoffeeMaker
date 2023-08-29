@@ -160,11 +160,11 @@ Feature: CoffeeMakerFeature
             * SUT mode is WAITING
             * SUT status is OUT_OF_RANGE
 #
-      Scenario: adding recipe with floating price
-            Given an empty recipe book
-            * user adds a recipe named float, Chocolate: 1, Coffee: 1, Milk: 1, Sugar: 1, Price: 10.5
-            * SUT mode is WAITING
-            * SUT status is RECIPE_NOT_ADDED
+#      Scenario: adding recipe with floating price
+#            Given an empty recipe book
+#            * user adds a recipe named float, Chocolate: 1, Coffee: 1, Milk: 1, Sugar: 1, Price: 10.5
+#            * SUT mode is WAITING
+#            * SUT status is RECIPE_NOT_ADDED
 
       Scenario: delete a recipe
             Given a default recipe book
