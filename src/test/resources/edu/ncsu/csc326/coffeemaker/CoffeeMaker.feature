@@ -39,7 +39,7 @@ Scenario Outline: Waiting State
             |4          |ADD_INVENTORY    |OK         |
             |5          |CHECK_INVENTORY  |OK         |
             |6          |PURCHASE_BEVERAGE |OK        |
-#            |8          |WAITING         |UNKNOWN_ERROR|
+            |8          |WAITING         |OK|
 #            |F          |WAITING         |UNKNOWN_ERROR|
 
 
@@ -97,11 +97,6 @@ Scenario Outline: Waiting State
 #      * SUT mode is WAITING
 #      * SUT status is RECIPE_NOT_ADDED
 #
-#Scenario: Add inventory with no sugar
-#      Given an empty recipe book
-#      * user adds coffee 10, milk 10, sugar 0, chocolate 10
-#      * SUT mode is WAITING
-#      * SUT status is OK
 #
       Scenario: add inventory with sugar
             Given an empty recipe book
@@ -109,12 +104,7 @@ Scenario Outline: Waiting State
             * SUT mode is WAITING
             * SUT status is OK
 #
-#Scenario: add inventory with negative chocolate
-#      Given an empty recipe book
-#      * user adds coffee 1, milk 1, sugar 1, chocolate -1
-#      * SUT mode is WAITING
-#      * SUT status is OUT_OF_RANGE
-##
+
       Scenario: add inventory with positive chocolate
             Given an empty recipe book
             * user adds coffee 10, milk 10, sugar 2, chocolate 2
@@ -132,12 +122,6 @@ Scenario Outline: Waiting State
             * user adds coffee 1, milk 1, sugar -2, chocolate 10
             * SUT mode is WAITING
             * SUT status is OUT_OF_RANGE
-#
-#      Scenario: adding recipe with floating price
-#            Given an empty recipe book
-#            * user adds a recipe named float, Chocolate: 1, Coffee: 1, Milk: 1, Sugar: 1, Price: 10.5
-#            * SUT mode is WAITING
-#            * SUT status is RECIPE_NOT_ADDED
 
       Scenario: delete a recipe
             Given a default recipe book
@@ -151,7 +135,62 @@ Scenario Outline: Waiting State
             * SUT mode is WAITING
             * SUT status is OK
 
-   # add more here!
+#      Add a recipe and checking the recipe was added
+      Scenario: Verify recipes added
+            Given an empty recipe book
+            * user adds a recipe named FOUR, Chocolate: 4, Coffee: 4, Milk: 4, Sugar: 4, Price: 4
+            * user adds a recipe named FIVE, Chocolate: 5, Coffee: 5, Milk: 5, Sugar: 5, Price: 5
+            * user verifies the added recipes
+#
+#      Add recipe with wrong values in all the ingredients with negative and string values
+#
+#      Edit a recipe with wrong values when you look on the list, for instance when
+#      i am looking -1 or 6.
+
+#
+#      Delete an empty recipe
+
+      Scenario: Delete an empty recipe
+            Given an empty recipe book
+            * user deletes recipe 1
+            * SUT mode is WAITING
+            * SUT status is OUT_OF_RANGE
+
+
+#      Delete a recipe after I added it
+#
+#      Add to the inventory and verify the inventory has added the values,
+#      here you need to get the inventory as a string
+#
+#      Add to the inventory with wrong values, I just used negative values
+#
+#      Add to the inventory using an empty recipe
+#
+#      Check Inventory
+#
+#      Check the inventory without adding any
+#
+#      Purchase Beverage
+#
+#      Purchasing a beverage, but you need to insert the money first to able to make the
+#      purchase.
+#
+#      Purchasing a beverage out of range, I meant when you select -4 or 4, remember
+#      we have a list of 3 recipes, so it will be out of range
+#
+#      Purchasing a beverage without enough ingredients, I had to create an scenario
+#      outline where my recipe in every scenario was having 18, for example coffee
+#      we have on the inventory 15, but if you add a recipe with 18 on the recipe,
+#      and try to buy you will get not enough ingredients.
+
+      Scenario: Take money from tray
+      Given an empty recipe book
+      * user takes money from tray
+
+      Scenario: Reset SUT
+      Given an empty recipe book
+      * user resets SUT
+
 
 #Scenario: Add a Recipe
 #      Priority: 1 Story Points: 2
@@ -231,3 +270,4 @@ Scenario Outline: Waiting State
 ## Add scenarios from the Use Cases here.  These can be Cucumber versions of the unit
 ## tests that were required for course 1, or can be more direct expressions of the use
 ## case tests found in the Requirements-coffeemaker.pdf file.
+

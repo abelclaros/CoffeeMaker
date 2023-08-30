@@ -24,10 +24,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import edu.ncsu.csc326.coffeemaker.CoffeeMaker;
-import edu.ncsu.csc326.coffeemaker.UICmd.AddInventory;
-import edu.ncsu.csc326.coffeemaker.UICmd.ChooseRecipe;
-import edu.ncsu.csc326.coffeemaker.UICmd.ChooseService;
-import edu.ncsu.csc326.coffeemaker.UICmd.DescribeRecipe;
+import edu.ncsu.csc326.coffeemaker.UICmd.*;
 import gherkin.lexer.Th;
 import org.junit.Assert;
 
@@ -128,13 +125,22 @@ public class TestSteps {
 	}
 
 	@When("^user inputs (.+)$")
-	public void userInputsOPTION(int userInput) {
-try {
-	coffeeMakerMain.UI_Input(new ChooseService(userInput));
-}
-catch (Exception e){
-	System.out.println("Exception caught in user input");
-}
+	public void userInputsOPTION(String userInput) {
+		try {
+			int inputNumber = Integer.parseInt(userInput);
+			coffeeMakerMain.UI_Input(new ChooseService(inputNumber));
+		} catch (NumberFormatException e) {
+			// Handle the exception when the user input is not a valid number
+			Assert.fail("Invalid user input format: " + userInput);
+		} catch (Exception e) {
+			// Handle other exceptions that UI_Input might throw
+			// For example, you can log the exception and fail the test
+			e.printStackTrace();
+			Assert.fail("An exception occurred during user input: " + e.getMessage());
+		}
+
+//	coffeeMakerMain.UI_Input(new ChooseService(Integer.parseInt(userInput)));
+
 	}
 
 	@And("^SUT mode is ([A-Z_]+)$")
@@ -176,12 +182,12 @@ catch (Exception e){
 	public void emptyRecipe() throws Throwable{
 		coffeeMakerMain.UI_Input(new ChooseService(1));
 		recipeDetailed = new Recipe();
-		recipeDetailed.setName("0");
-		recipeDetailed.setAmtChocolate("0");
-		recipeDetailed.setAmtCoffee("0");
-		recipeDetailed.setAmtMilk("0");
-		recipeDetailed.setAmtSugar("0");
-		recipeDetailed.setPrice("0");
+		recipeDetailed.setName(null);
+		recipeDetailed.setAmtChocolate(null);
+		recipeDetailed.setAmtCoffee(null);
+		recipeDetailed.setAmtMilk(null);
+		recipeDetailed.setAmtSugar(null);
+		recipeDetailed.setPrice(null);
 		coffeeMakerMain.UI_Input(new DescribeRecipe(recipeDetailed));
 	}
 
@@ -201,7 +207,6 @@ catch (Exception e){
 	public void userEditsRecipe(String recipe) throws Throwable{
 		coffeeMakerMain.UI_Input(new ChooseService(3));
 		coffeeMakerMain.UI_Input(new ChooseRecipe(Integer.parseInt(recipe)));
-
 		recipe1 = new Recipe();
 		recipe1.setName("name");
 		recipe1.setAmtChocolate("1");
@@ -212,5 +217,39 @@ catch (Exception e){
 
 		coffeeMakerMain.UI_Input(new DescribeRecipe(recipe1));
 	}
+
+	@When("^user verifies the added recipes$")
+	public void verifyRecipes() throws Throwable{
+//			String s ="1. Coffee\n2. Hot Chocolate\n";
+			coffeeMakerMain.displayRecipes();
+			assertEquals("FOUR", coffeeMakerMain.getRecipes()[0].getName());
+			assertEquals("FIVE", coffeeMakerMain.getRecipes()[1].getName());
+	}
+
+	@When("^edit a recipe with wrong values$")
+	public void editWrongValues()  {
+		try {
+			recipe1 = new Recipe();
+			recipe1.setName("name");
+			recipe1.setAmtChocolate("-1");
+			recipe1.setAmtCoffee("-1");
+			recipe1.setAmtMilk("-1");
+			recipe1.setAmtSugar("-1");
+			recipe1.setPrice("-1");
+		}
+		catch (Throwable t){}
+		coffeeMaker.editRecipe(1, recipe1 );
+	}
+
+	@When("^user takes money from tray$")
+	public void takeMoneyFromTray(){
+		coffeeMakerMain.UI_Input(new TakeMoneyFromTray());
+	}
+
+	@When("^user resets SUT$")
+	public void resetSUT(){
+		coffeeMakerMain.UI_Input(new Reset());
+	}
+
 }
 
