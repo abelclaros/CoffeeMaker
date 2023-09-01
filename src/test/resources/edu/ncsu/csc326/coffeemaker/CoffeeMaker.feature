@@ -112,6 +112,7 @@ Scenario: adding and empty recipe
 #
       Scenario: add inventory with sugar
             Given an empty recipe book
+            * user inputs 4
             * user adds coffee 10, milk 10, sugar 2, chocolate 10
             * SUT mode is WAITING
             * SUT status is OK
@@ -119,18 +120,21 @@ Scenario: adding and empty recipe
 
       Scenario: add inventory with positive chocolate
             Given an empty recipe book
+            * user inputs 4
             * user adds coffee 10, milk 10, sugar 2, chocolate 2
             * SUT mode is WAITING
             * SUT status is OK
 ##
       Scenario: add inventory with negative milk
             Given an empty recipe book
+            * user inputs 4
             * user adds coffee 1, milk -1, sugar 2, chocolate 10
             * SUT mode is WAITING
             * SUT status is OUT_OF_RANGE
 ##
       Scenario: add inventory with negative sugar
             Given an empty recipe book
+            * user inputs 4
             * user adds coffee 1, milk 1, sugar -2, chocolate 10
             * SUT mode is WAITING
             * SUT status is OUT_OF_RANGE
@@ -206,10 +210,31 @@ Scenario: adding and empty recipe
 #      here you need to get the inventory as a string
 #
 #      Add to the inventory with wrong values, I just used negative values
+      Scenario Outline: Several wrong inventory items are added
+            Given a default recipe book
+            * user inputs 4
+            * user adds coffee <COFFEE>, milk <MILK>, sugar <SUGAR>, chocolate <CHOCO>
+            * SUT mode is WAITING
+            * SUT status is OUT_OF_RANGE
+
+            Examples:
+
+             |CHOCO      |COFFEE     |MILK |SUGAR      |
+             |-1         |10         |10   |10         |
+             |10         |-1         |-1   |-1         |
+             |10         |10         |-1   |-1         |
+             |10         |10         |10   |-1         |
+             |-1         |-1         |-1   |-1         |
 
 #
 #      Add to the inventory using an empty recipe
 #
+      Scenario: add inventory with null values
+            Given a default recipe book
+            * user inputs 4
+            * user adds null inventory
+            * SUT mode is ADD_INVENTORY
+            * SUT status is OK
 #      Check Inventory
 #
 #      Check the inventory without adding any

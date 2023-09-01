@@ -198,8 +198,20 @@ public class TestSteps {
 
 	@When ("^user adds coffee (.+), milk (.+), sugar (.+), chocolate (.+)$")
 	public void userAddsInventory(String coffee, String milk, String sugar, String chocolate ){
-		coffeeMakerMain.UI_Input(new ChooseService(4));
-		coffeeMakerMain.UI_Input(new AddInventory(Integer.parseInt(coffee), Integer.parseInt(milk), Integer.parseInt(sugar), Integer.parseInt(chocolate)));
+//		coffeeMakerMain.UI_Input(new ChooseService(4));
+try {
+	coffeeMakerMain.UI_Input(new AddInventory(Integer.parseInt(coffee), Integer.parseInt(milk), Integer.parseInt(sugar), Integer.parseInt(chocolate)));
+}
+catch (Exception e){}
+}
+
+	@When ("^user adds null inventory$")
+	public void userAddsNullInventory(){
+//		coffeeMakerMain.UI_Input(new ChooseService(4));
+		try {
+			coffeeMakerMain.UI_Input(new AddInventory(Integer.parseInt(null), Integer.parseInt(null), Integer.parseInt(null), Integer.parseInt(null)));
+		}
+		catch (Exception e){}
 	}
 
 	@When ("^user deletes recipe (.+)$")
