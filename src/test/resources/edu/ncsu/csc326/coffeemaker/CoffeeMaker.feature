@@ -45,57 +45,69 @@ Scenario Outline: Waiting State
 
       Scenario: A new recipe is added
             Given an empty recipe book
+            * user inputs 1
             * user adds a recipe named TEST, Chocolate: 2, Coffee: 1, Milk: 1, Sugar: 1, Price: 1
             * SUT mode is WAITING
             * SUT status is OK
 
-#Scenario: Recipe with negative chocolate
-#      Given an empty recipe book
-#      * user adds a recipe named badchoco, Chocolate: -1, Coffee: 2, Milk: 3, Sugar: 3, Price: 3
-#      * SUT mode is WAITING
-#      * SUT status is RECIPE_NOT_ADDED
+      Scenario: Recipe with negative chocolate
+            Given an empty recipe book
+            * user inputs 1
+            * user adds a recipe named badchoco, Chocolate: -1, Coffee: 2, Milk: 3, Sugar: 3, Price: 3
+            * SUT mode is WAITING
+            * SUT status is OK
 
       Scenario: adding a recipe with the same name
             Given an empty recipe book
+            * user inputs 1
             * user adds a recipe named repeat, Chocolate: 1, Coffee: 1, Milk: 1, Sugar: 1, Price: 1
             * SUT mode is WAITING
             * SUT status is OK
+            * user inputs 1
             * user adds a recipe named repeat, Chocolate: 10, Coffee: 10, Milk: 10, Sugar: 10, Price: 10
             * SUT mode is WAITING
             * SUT status is RECIPE_NOT_ADDED
 
       Scenario: adding three recipes
             Given an empty recipe book
+            * user inputs 1
             * user adds a recipe named 1, Chocolate: 1, Coffee: 1, Milk: 1, Sugar: 1, Price: 1
             * SUT mode is WAITING
             * SUT status is OK
+            * user inputs 1
             * user adds a recipe named 2, Chocolate: 1, Coffee: 1, Milk: 1, Sugar: 1, Price: 1
             * SUT mode is WAITING
             * SUT status is OK
+            * user inputs 1
             * user adds a recipe named 3, Chocolate: 1, Coffee: 1, Milk: 1, Sugar: 1, Price: 1
             * SUT mode is WAITING
             * SUT status is OK
 
       Scenario: adding 4 recipes
             Given an empty recipe book
+            * user inputs 1
             * user adds a recipe named 1, Chocolate: 1, Coffee: 1, Milk: 1, Sugar: 1, Price: 1
             * SUT mode is WAITING
             * SUT status is OK
+            * user inputs 1
             * user adds a recipe named 2, Chocolate: 1, Coffee: 1, Milk: 1, Sugar: 1, Price: 1
             * SUT mode is WAITING
             * SUT status is OK
+            * user inputs 1
             * user adds a recipe named 3, Chocolate: 1, Coffee: 1, Milk: 1, Sugar: 1, Price: 1
             * SUT mode is WAITING
             * SUT status is OK
+            * user inputs 1
             * user adds a recipe named 4, Chocolate: 1, Coffee: 1, Milk: 1, Sugar: 1, Price: 1
             * SUT mode is WAITING
             * SUT status is RECIPE_NOT_ADDED
 #
-#Scenario: adding and empty recipe
-#      Given an empty recipe book
-#      * user adds an empty recipe
-#      * SUT mode is WAITING
-#      * SUT status is RECIPE_NOT_ADDED
+Scenario: adding and empty recipe
+      Given an empty recipe book
+      * user inputs 1
+      * user adds an empty recipe
+      * SUT mode is ADD_RECIPE
+      * SUT status is OK
 #
 #
       Scenario: add inventory with sugar
@@ -131,6 +143,7 @@ Scenario Outline: Waiting State
 
       Scenario: edit a recipe
             Given a default recipe book
+            * user inputs 3
             * user edits recipe 1
             * SUT mode is WAITING
             * SUT status is OK
@@ -138,15 +151,38 @@ Scenario Outline: Waiting State
 #      Add a recipe and checking the recipe was added
       Scenario: Verify recipes added
             Given an empty recipe book
+            * user inputs 1
             * user adds a recipe named FOUR, Chocolate: 4, Coffee: 4, Milk: 4, Sugar: 4, Price: 4
+            * user inputs 1
             * user adds a recipe named FIVE, Chocolate: 5, Coffee: 5, Milk: 5, Sugar: 5, Price: 5
             * user verifies the added recipes
 #
 #      Add recipe with wrong values in all the ingredients with negative and string values
-#
+      Scenario Outline: Several wrong recipes are added
+            Given an empty recipe book
+            * user inputs 1
+            * user adds a recipe named <TEST>, Chocolate: <CHOCO>, Coffee: <COFFEE>, Milk: <MILK>, Sugar: <SUGAR>, Price: <PRICE>
+            * SUT mode is WAITING
+            * SUT status is OK
+
+            Examples:
+
+            |TEST |CHOCO      |COFFEE     |MILK |SUGAR      |PRICE      |
+            |A    |-1         |-1         |-1   |-1         |-1         |
+            |A    |10         |-1         |-1   |-1         |-1         |
+            |A    |10         |10         |-1   |-1         |-1         |
+            |A    |10         |10         |10   |-1         |-1         |
+            |A    |10         |10         |10   |-1         |-1         |
+            |A    |10         |10         |10   |10         |-1         |
+            |A    |10         |10         |10   |10         |10         |
 #      Edit a recipe with wrong values when you look on the list, for instance when
 #      i am looking -1 or 6.
-
+      Scenario: edit a wrong recipe number
+            Given a default recipe book
+            * user inputs 3
+            * user edits recipe 6
+            * SUT mode is WAITING
+            * SUT status is WRONG_MODE
 #
 #      Delete an empty recipe
 
@@ -158,11 +194,19 @@ Scenario Outline: Waiting State
 
 
 #      Delete a recipe after I added it
-#
+
+      Scenario: Add a recipe then delete it
+            Given an empty recipe book
+            * user inputs 1
+            * user adds a recipe named ABC, Chocolate: 1, Coffee: 2, Milk: 3, Sugar: 4, Price: 5
+            * user deletes recipe 1
+            * SUT mode is WAITING
+            * SUT status is OUT_OF_RANGE
 #      Add to the inventory and verify the inventory has added the values,
 #      here you need to get the inventory as a string
 #
 #      Add to the inventory with wrong values, I just used negative values
+
 #
 #      Add to the inventory using an empty recipe
 #

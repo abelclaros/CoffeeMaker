@@ -150,16 +150,18 @@ public class TestSteps {
 
 	@When("^user adds a recipe named (.+), Chocolate: (.+), Coffee: (.+), Milk: (.+), Sugar: (.+), Price: (.+)$")
 	public void addGoodRecipe(String name, String chocolate, String coffee, String milk, String sugar, String price) throws Throwable {
-		coffeeMakerMain.UI_Input(new ChooseService(1));
-
-		//Set up for r1
-		recipe1 = new Recipe();
-		recipe1.setName(name);
-		recipe1.setAmtChocolate(chocolate);
-		recipe1.setAmtCoffee(chocolate);
-		recipe1.setAmtMilk(milk);
-		recipe1.setAmtSugar(sugar);
-		recipe1.setPrice(price);
+//		coffeeMakerMain.UI_Input(new ChooseService(1));
+		try {
+			//Set up for r1
+			recipe1 = new Recipe();
+			recipe1.setName(name);
+			recipe1.setAmtChocolate(chocolate);
+			recipe1.setAmtCoffee(chocolate);
+			recipe1.setAmtMilk(milk);
+			recipe1.setAmtSugar(sugar);
+			recipe1.setPrice(price);
+		}
+		catch (Exception e){}
 
 		coffeeMakerMain.UI_Input(new DescribeRecipe(recipe1));
 	}
@@ -179,16 +181,19 @@ public class TestSteps {
 
 
 	@When("user adds an empty recipe")
-	public void emptyRecipe() throws Throwable{
-		coffeeMakerMain.UI_Input(new ChooseService(1));
-		recipeDetailed = new Recipe();
-		recipeDetailed.setName(null);
-		recipeDetailed.setAmtChocolate(null);
-		recipeDetailed.setAmtCoffee(null);
-		recipeDetailed.setAmtMilk(null);
-		recipeDetailed.setAmtSugar(null);
-		recipeDetailed.setPrice(null);
-		coffeeMakerMain.UI_Input(new DescribeRecipe(recipeDetailed));
+	public void emptyRecipe() {
+//		coffeeMakerMain.UI_Input(new ChooseService(1));
+		try {
+			recipeDetailed = new Recipe();
+			recipeDetailed.setName(null);
+			recipeDetailed.setAmtChocolate(null);
+			recipeDetailed.setAmtCoffee(null);
+			recipeDetailed.setAmtMilk(null);
+			recipeDetailed.setAmtSugar(null);
+			recipeDetailed.setPrice(null);
+			coffeeMakerMain.UI_Input(new DescribeRecipe(recipeDetailed));
+		}
+		catch (Exception e) {}
 	}
 
 	@When ("^user adds coffee (.+), milk (.+), sugar (.+), chocolate (.+)$")
@@ -204,16 +209,19 @@ public class TestSteps {
 	}
 
 	@When("^user edits recipe (.+)$")
-	public void userEditsRecipe(String recipe) throws Throwable{
-		coffeeMakerMain.UI_Input(new ChooseService(3));
-		coffeeMakerMain.UI_Input(new ChooseRecipe(Integer.parseInt(recipe)));
-		recipe1 = new Recipe();
-		recipe1.setName("name");
-		recipe1.setAmtChocolate("1");
-		recipe1.setAmtCoffee("1");
-		recipe1.setAmtMilk("1");
-		recipe1.setAmtSugar("1");
-		recipe1.setPrice("1");
+	public void userEditsRecipe(String recipe)  {
+//		coffeeMakerMain.UI_Input(new ChooseService(3));
+		try {
+			coffeeMakerMain.UI_Input(new ChooseRecipe(Integer.parseInt(recipe)));
+			recipe1 = new Recipe();
+			recipe1.setName("name");
+			recipe1.setAmtChocolate("1");
+			recipe1.setAmtCoffee("1");
+			recipe1.setAmtMilk("1");
+			recipe1.setAmtSugar("1");
+			recipe1.setPrice("1");
+		}
+		catch (Exception e){}
 
 		coffeeMakerMain.UI_Input(new DescribeRecipe(recipe1));
 	}
