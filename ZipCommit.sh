@@ -9,3 +9,9 @@ desktop_path="combined_files.zip"
 zip -j "$desktop_path" "$file1_path" "$file2_path"
 
 echo "Files have been zipped to $desktop_path"
+
+date +"%T"
+
+#sleep 5
+#
+#clear

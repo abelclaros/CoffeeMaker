@@ -39,14 +39,11 @@ public class TestSteps {
 	private Recipe recipe3;
 	private Recipe recipe4;
 	private Recipe recipe5;
-	private Recipe recipeGood;
-	private Recipe recipeBad;
-	private Recipe recipeEmpty;
-
 	private Recipe recipeDetailed;
 	private CoffeeMakerUI coffeeMakerMain;
 	private CoffeeMaker coffeeMaker;
 	private RecipeBook recipeBook;
+	private Inventory inventory;
 
 
 	private void initialize() {
@@ -58,6 +55,44 @@ public class TestSteps {
 	@Given("^an empty recipe book$")
 	public void an_empty_recipe_book() {
 		initialize();
+	}
+
+	@Given("^recipes with too much ingredients$")
+	public void bigIngredientsRecipe() throws Throwable{
+
+		initialize();
+
+		//Set up for r1
+		recipe1 = new Recipe();
+		recipe1.setName("BigCoffee");
+		recipe1.setAmtChocolate("0");
+		recipe1.setAmtCoffee("20");
+		recipe1.setAmtMilk("1");
+		recipe1.setAmtSugar("1");
+		recipe1.setPrice("50");
+
+		//Set up for r2
+		recipe2 = new Recipe();
+		recipe2.setName("BigChocolate");
+		recipe2.setAmtChocolate("20");
+		recipe2.setAmtCoffee("3");
+		recipe2.setAmtMilk("1");
+		recipe2.setAmtSugar("1");
+		recipe2.setPrice("75");
+
+		//Set up for r3
+		recipe3 = new Recipe();
+		recipe3.setName("BigMilk");
+		recipe3.setAmtChocolate("0");
+		recipe3.setAmtCoffee("3");
+		recipe3.setAmtMilk("20");
+		recipe3.setAmtSugar("1");
+		recipe3.setPrice("100");
+
+		recipeBook.addRecipe(recipe1);
+		recipeBook.addRecipe(recipe2);
+		recipeBook.addRecipe(recipe3);
+
 	}
 
 
@@ -259,6 +294,29 @@ catch (Exception e){}
 		}
 		catch (Throwable t){}
 		coffeeMaker.editRecipe(1, recipe1 );
+	}
+
+	@When("^user compares inventory to coffee (.+), milk (.+), sugar (.+), chocolate (.+)$")
+	public void compareInventory(String coffee, String milk, String sugar, String chocolate){
+
+//		String inventory =  new AddInventory(Integer.parseInt(coffee), Integer.parseInt(milk), Integer.parseInt(sugar), Integer.parseInt(chocolate));
+//		String inventory = new Inventory(Integer.parseInt(coffee), Integer.parseInt(milk), Integer.parseInt(sugar), Integer.parseInt(chocolate));
+
+		String inventory = coffeeMaker.checkInventory();
+     	System.out.println(inventory);
+//#      ciCmd.setInventory(result);
+	}
+
+	@When("^user selects recipe number (.+)$")
+	public void selectRecipe(String recipe){
+		coffeeMakerMain.UI_Input(new ChooseRecipe(Integer.parseInt(recipe)));
+	}
+
+	@When ("^user inserts (.+) units of money$")
+	public void insertMoney(String money){
+		coffeeMakerMain.defaultCommands(new InsertMoney(Integer.parseInt(money)));
+//		coffeeMakerMain.UI_Input(new InsertMoney(Integer.parseInt(money)));
+
 	}
 
 	@When("^user takes money from tray$")

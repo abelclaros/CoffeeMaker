@@ -208,7 +208,12 @@ Scenario: adding and empty recipe
             * SUT status is OUT_OF_RANGE
 #      Add to the inventory and verify the inventory has added the values,
 #      here you need to get the inventory as a string
-#
+
+      Scenario: add items to the inventory and verify the added values
+            Given an empty recipe book
+            *
+
+
 #      Add to the inventory with wrong values, I just used negative values
       Scenario Outline: Several wrong inventory items are added
             Given a default recipe book
@@ -236,21 +241,63 @@ Scenario: adding and empty recipe
             * SUT mode is ADD_INVENTORY
             * SUT status is OK
 #      Check Inventory
-#
+
+      Scenario: check initial status of the inventory, then add items and then check again
+            Given a default recipe book
+            * user compares inventory to coffee 15, milk 15, sugar 15, chocolate 15
+#            * user adds coffee 10, milk 10, sugar 10, chocolate 10
+#            * user checks inventory
+
+
 #      Check the inventory without adding any
 #
 #      Purchase Beverage
+
+#      Scenario: Purchase beverage
+#            Given a default recipe book
+##     User selects BUY BEVERAGE option
+#            * user inputs 6
+#            * user selects recipe number 1
+#            * SUT mode is WAITING
+#            * SUT status is INSUFFICIENT_FUNDS
 #
+
 #      Purchasing a beverage, but you need to insert the money first to able to make the
 #      purchase.
 #
-#      Purchasing a beverage out of range, I meant when you select -4 or 4, remember
-#      we have a list of 3 recipes, so it will be out of range
+      Scenario Outline: Purchase beverage GENERAL CASES
+            Given a default recipe book
+#     User selects BUY BEVERAGE option
+            * user inputs 6
+            * user inserts <money> units of money
+            * user selects recipe number <recipe>
+            * SUT mode is <mode>
+            * SUT status is <status>
+
+            Examples:
+            |money|recipe     |mode             |status                 |
+            |100  |0          |WAITING          |OK                     |
+            |49   |0          |WAITING          |INSUFFICIENT_FUNDS     |
+            |50   |0          |WAITING          |OK                     |
+            |100  |1          |WAITING          |INSUFFICIENT_FUNDS     |
+            |150  |-1         |WAITING          |OUT_OF_RANGE           |
+            |150  |2          |WAITING          |OK                     |
+            |-50  |0          |WAITING          |INSUFFICIENT_FUNDS     |
+            |150  |4          |WAITING          |OUT_OF_RANGE           |
+
 #
 #      Purchasing a beverage without enough ingredients, I had to create an scenario
 #      outline where my recipe in every scenario was having 18, for example coffee
 #      we have on the inventory 15, but if you add a recipe with 18 on the recipe,
 #      and try to buy you will get not enough ingredients.
+
+      Scenario: buying beverage that its recipe needs too much ingredients
+            Given recipes with too much ingredients
+            * user inputs 6
+            * user inserts 200 units of money
+            * user selects recipe number 2
+            * SUT mode is WAITING
+            * SUT status is INSUFFICIENT_FUNDS
 
       Scenario: Take money from tray
       Given an empty recipe book
