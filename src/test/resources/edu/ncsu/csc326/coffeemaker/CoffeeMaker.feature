@@ -139,11 +139,27 @@ Scenario: adding and empty recipe
             * SUT mode is WAITING
             * SUT status is OUT_OF_RANGE
 
-      Scenario: delete a recipe
+      Scenario Outline: delete a recipe
             Given a default recipe book
-            * user deletes recipe 1
-            * SUT mode is WAITING
-            * SUT status is OK
+#            * user inputs 2
+            * user deletes recipe <recipe>
+            * SUT mode is <mode>
+            * SUT status is <status>
+      Examples:
+            |recipe     |mode             |status           |
+#            |0          |WAITING          |OK            |
+            |1          |WAITING          |OK               |
+            |2          |WAITING          |OK             |
+            |3          |WAITING          |OUT_OF_RANGE     |
+#            |-1         |DELETE_RECIPE          |OUT_OF_RANGE               |
+
+#      Scenario: delete a recipe
+#            Given a default recipe book
+#            * user inputs 2
+#            * user deletes recipe 1
+#            * SUT mode is WAITING
+#            * SUT status is OK
+
 
       Scenario: edit a recipe
             Given a default recipe book

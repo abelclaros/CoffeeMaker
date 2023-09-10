@@ -256,8 +256,12 @@ catch (Exception e){}
 
 	@When ("^user deletes recipe (.+)$")
 	public void userDeletesRecipe(String recipe) {
-		coffeeMakerMain.UI_Input(new ChooseService(2));
-		coffeeMakerMain.UI_Input(new ChooseRecipe(1));
+		try {
+			coffeeMakerMain.UI_Input(new ChooseService(2));
+			System.out.println("RECIPE: " + recipe + "\n---------------------\nMODE AFTER CHOOSING SERVICE (DELETE CASE): " + coffeeMakerMain.getMode() + "\n---------------------\nSTATUS AFTER CHOOSING SERVICE (DELETE CASE): " + coffeeMakerMain.getStatus());
+			coffeeMakerMain.UI_Input(new ChooseRecipe(Integer.parseInt(recipe)));
+			System.out.println("---------------------\nMODE AFTER CHOOSING RECIPE (DELETE CASE): " + coffeeMakerMain.getMode() + "\n---------------------\nSTATUS AFTER CHOOSING RECIPE (DELETE CASE): " + coffeeMakerMain.getStatus() + "\n--------------------------\n");
+		}catch(ArrayIndexOutOfBoundsException ignored){}
 	}
 
 	@When("^user edits recipe (.+)$")
