@@ -206,12 +206,7 @@ Scenario: adding and empty recipe
             * user deletes recipe 1
             * SUT mode is WAITING
             * SUT status is OUT_OF_RANGE
-#      Add to the inventory and verify the inventory has added the values,
-#      here you need to get the inventory as a string
 
-      Scenario: add items to the inventory and verify the added values
-            Given an empty recipe book
-            *
 
 
 #      Add to the inventory with wrong values, I just used negative values
@@ -242,15 +237,26 @@ Scenario: adding and empty recipe
             * SUT status is OK
 #      Check Inventory
 
+#      Add to the inventory and verify the inventory has added the values,
+#      here you need to get the inventory as a string
+
       Scenario: check initial status of the inventory, then add items and then check again
             Given a default recipe book
-            * user compares inventory to coffee 15, milk 15, sugar 15, chocolate 15
-#            * user adds coffee 10, milk 10, sugar 10, chocolate 10
-#            * user checks inventory
+            * user inputs 5
+            * inventory has 15 of each item
+            * user adds coffee 85, milk 85, sugar 0, chocolate 85
+            * inventory has 100 of each item
 
 
 #      Check the inventory without adding any
-#
+
+      Scenario: Check inventory at init
+            Given a default recipe book
+            * user inputs 5
+            * inventory has 15 of each item
+            * SUT mode is WAITING
+            * SUT status is OK
+
 #      Purchase Beverage
 
 #      Scenario: Purchase beverage

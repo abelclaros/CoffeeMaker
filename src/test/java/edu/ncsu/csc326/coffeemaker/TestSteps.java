@@ -236,6 +236,11 @@ public class TestSteps {
 //		coffeeMakerMain.UI_Input(new ChooseService(4));
 try {
 	coffeeMakerMain.UI_Input(new AddInventory(Integer.parseInt(coffee), Integer.parseInt(milk), Integer.parseInt(sugar), Integer.parseInt(chocolate)));
+	coffeeMakerMain.coffeeMaker.addInventory(coffee, milk, sugar, chocolate);
+//	inventory.setCoffee(Integer.parseInt(coffee));
+//	inventory.setMilk(Integer.parseInt(milk));
+//	inventory.setSugar(Integer.parseInt(sugar));
+//	inventory.setChocolate(Integer.parseInt(chocolate));
 }
 catch (Exception e){}
 }
@@ -317,6 +322,23 @@ catch (Exception e){}
 		coffeeMakerMain.defaultCommands(new InsertMoney(Integer.parseInt(money)));
 //		coffeeMakerMain.UI_Input(new InsertMoney(Integer.parseInt(money)));
 
+	}
+
+	@When("^inventory has 15 of each item$")
+	public void initInventory() throws Throwable{
+		coffeeMakerMain.UI_Input(new CheckInventory());
+		String inventory = "Coffee: 15\nMilk: 15\nSugar: 15\nChocolate: 15\n";
+		assertEquals(inventory, coffeeMakerMain.coffeeMaker.checkInventory().toString());
+
+	}
+
+	@When("^inventory has 100 of each item$")
+	public void hundredInventory() throws Throwable{
+		coffeeMakerMain.UI_Input(new CheckInventory());
+		System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+//		System.out.println(coffeeMakerMain.coffeeMaker.checkInventory().toString());
+		String inventory = "Coffee: 100\nMilk: 100\nSugar: 15\nChocolate: 100\n";
+		assertEquals(inventory, coffeeMakerMain.coffeeMaker.checkInventory().toString());
 	}
 
 	@When("^user takes money from tray$")
